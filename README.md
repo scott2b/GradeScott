@@ -20,7 +20,7 @@ any old regular way.
 The initial thrust of this project was based on the Python section of the
 [Coursera programming assignments demo](https://github.com/coursera/programming-assignments-demo),
 but the resulting approach to grading is much different. Graders in GradeScott are
-simply unit test files designed to work [Python unittest](https://docs.python.org/3/library/unittest.html).
+simply unit test files designed to work with [Python unittest](https://docs.python.org/3/library/unittest.html).
 
 
 ## Quickstart
