@@ -44,6 +44,10 @@ simply unit test files designed to work [Python unittest](https://docs.python.or
  3. Place a submission `.py` file into a location specified by `$SUBMISSION_LOCATION`
     (relative to the root of the repository).
 
+ 4. Add grader to your `PYTHONPATH`: `export PYTHONPATH=$PYTHONPATH:grader`. Making
+    imports work similarly within Docker and without is a bit wonky, and this seems
+    like the easiest fix. I'm open to better ideas.
+
  4. Test the assignment by running `python -m grader.grade`
 
 ## Build the grading container for local execution
