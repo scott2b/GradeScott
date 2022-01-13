@@ -50,11 +50,13 @@ simply unit test files designed to work with [Python unittest](https://docs.pyth
 
  4. Test the assignment by running `python -m grader.grade`
 
+
 ## Build the grading container for local execution
 
 ```
 docker build -t grader .
 ```
+
 
 ## Execution via built container
 
@@ -64,7 +66,20 @@ E.g.:
 coursera_autograder grade local grader ./submission "{\"partId\": \"${partId}\"}" --dst-dir .
 ```
 
+
 ## Usage outside of Coursera
 
 In theory, it seems that you should be able to run the [Coursera autograder](https://github.com/coursera/coursera_autograder)
 as your own service. I have not yet tested this out. Please let me know if you do.
+
+
+## TODO / Roadmap
+
+ - Provide an example assignment
+ - Attempt self-hosting of Coursera's grader
+ - Custom weights on tests. Tests currently are just 1/n where n is the total number
+   of tests run. This might not be ideal in some cases.
+ - Support multiple-file submissions.
+ - Randomizer tools for creating tests that are different each time within a set of parameters.
+   (e.g., we want to provide clear feedback about what the student got wrong, but we
+   don't want students to just hard-code functions to match expected test results)
