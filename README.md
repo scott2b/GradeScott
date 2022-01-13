@@ -63,3 +63,8 @@ E.g.:
 ```
 coursera_autograder grade local grader ./submission "{\"partId\": \"${partId}\"}" --dst-dir .
 ```
+
+## Usage outside of Coursera
+
+In theory, it seems that you should be able to run the [Coursera autograder](https://github.com/coursera/coursera_autograder)
+as your own service. I have not yet tested this out. Please let me know if you do.
