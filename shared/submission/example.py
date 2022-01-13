@@ -2,6 +2,8 @@
 Example assignment
 """
 
+# Example notebook artifact that is cleaned before testing:
+!pip install requests
 
 def add(x, y):
     """Implement this function to return the sum of x and y."""

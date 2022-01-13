@@ -10,6 +10,9 @@ from pathlib import Path
 from util import clean_pyfile, send_feedback
 
 
+SUBMISSION_DIR = Path(os.environ.get("SHARED_DIR", "/shared")) / "submission"
+SUBMISSION_DEST_DIR = Path(os.environ.get("GRADER_DIR", "/grader")) / "submission"
+
 
 class CustomTestResult(unittest.TextTestResult):
     """Creates a cleaner output intended to be more suitable for grading feedback."""
@@ -23,27 +26,46 @@ class CustomTestResult(unittest.TextTestResult):
             super().addFailure(test, err)
 
 
+def get_submission_files():
+    """The primary rules for submission discovery are encoded here.
+
+      - Submission files should be under $SHARED_DIR/submission. $SHARED_DIR defaults
+        to `/shared` for Coursera platform support.
+      - Files or paths with any component that starts with __ (double-underscore) are
+        ignored.
+      - File extensions must be one of supported: .csv, .json, .jsonl, .py, .txt
+    """
+    supported_suffixes = [".csv", ".json", ".jsonl", ".py", ".txt"]
+    #loc = Path(os.environ.get("SHARED_DIR", "/shared")) / "submission"
+    for path in SUBMISSION_DIR.glob("**/*"):
+        if any([part.startswith("__") for part in path.parts]):
+            continue
+        if path.suffix in supported_suffixes: 
+            yield(path)
+
+
+def destination_for_submission(path):
+    """Get the grading destination for a given submission file."""
+    i = len(SUBMISSION_DIR.as_posix()) + 1
+    dest = SUBMISSION_DEST_DIR / path.as_posix()[i:]
+    return dest
+
+
 def main(partId):
-    submission_location = os.environ.get("SUBMISSION_LOCATION", "/shared/submission/")
-    submission_file = None
-    for file_ in os.listdir(submission_location):
-        if file_.endswith(".py"):
-            submission_file = file_
+    #submission_location = os.environ.get("SUBMISSION_LOCATION", "/shared/submission/")
+    #submission_file = None
+    submissions = get_submission_files()
+    for path in submissions:
+        dest = destination_for_submission(path)
+        if path.suffix == ".py":
+            clean_pyfile(path, dest)
         else:
-            submission_file = None
-    if submission_file is None:
-        files = str(os.listdir(submission_location))
-        _message = f"Files in submission location ({submission_location}): {files}"
-        send_feedback(0.0, _message)
-        return
-    print(submission_file)
-    sub_source = os.path.join(submission_location, submission_file)
-    sub_destination = os.environ.get("SUBMISSION_DESTINATION", "/grader/submission.py")
-    clean_pyfile(sub_source, sub_destination)
-    try: # Test importing of submission
-        import submission
-    except ModuleNotFoundError as e:
-        msg = "Attempted import of unsupported package. Error was: " + str(e)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(path, dest)
+    try:
+        submission_file = list(SUBMISSION_DEST_DIR.glob("*.py"))[0]
+    except IndexError:
+        msg = "Submission file not found"
         send_feedback(0.0, msg)
         return
 

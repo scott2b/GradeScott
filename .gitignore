@@ -1,6 +1,7 @@
 shared/*
 submission/*
 grader/tests/*
+grader/submission/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

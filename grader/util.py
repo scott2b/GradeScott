@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 LINE_RX = re.compile(r'(\s*)(.*)')
-SHARED_PATH = Path(os.environ.get("SHARED_LOCATION", "/shared"))
+SHARED_PATH = Path(os.environ.get("SHARED_DIR", "/shared"))
 
 
 def send_feedback(score, msg):
