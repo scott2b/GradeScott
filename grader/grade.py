@@ -25,18 +25,19 @@ class CustomTestResult(unittest.TextTestResult):
 
 def main(partId):
     submission_location = os.environ.get("SUBMISSION_LOCATION", "/shared/submission/")
-    learnerFile = None
-    for file in os.listdir(submission_location):
-        if file.endswith(".py"):
-            learnerFile = file
+    submission_file = None
+    for file_ in os.listdir(submission_location):
+        if file_.endswith(".py"):
+            submission_file = file_
         else:
-            learnerFile = None
-    if learnerFile is None:
+            submission_file = None
+    if submission_file is None:
         files = str(os.listdir(submission_location))
         _message = f"Files in submission location ({submission_location}): {files}"
         send_feedback(0.0, _message)
         return
-    sub_source = os.path.join(submission_location, learnerFile)
+    print(submission_file)
+    sub_source = os.path.join(submission_location, submission_file)
     sub_destination = os.environ.get("SUBMISSION_DESTINATION", "/grader/submission.py")
     clean_pyfile(sub_source, sub_destination)
     try: # Test importing of submission
@@ -47,12 +48,15 @@ def main(partId):
         return
 
     import tests # Deferred import to ensure submission prep is done first
+    print("imported tests", tests)
 
     # Fail-fast tests are not scored
-    if partId is not None:
-        test_file_pattern = f"test_{partId}*.py"
-    else:
+    if partId is None:
+        print("No partId specified. Running all tests.")
         test_file_pattern = f"test*.py"
+    else:
+        print("Running tests for PartID:", partId)
+        test_file_pattern = f"test_{partId}*.py"
     suite = unittest.defaultTestLoader.discover(Path(__file__).parent.resolve() / "tests", pattern=f"f{test_file_pattern}")
     stream = io.StringIO()
     result = unittest.TextTestRunner(stream=stream, resultclass=CustomTestResult, failfast=True).run(suite)

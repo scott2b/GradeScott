@@ -75,7 +75,6 @@ as your own service. I have not yet tested this out. Please let me know if you d
 
 ## TODO / Roadmap
 
- - Provide an example assignment
  - Attempt self-hosting of Coursera's grader
  - Custom weights on tests. Tests currently are just 1/n where n is the total number
    of tests run. This might not be ideal in some cases.
