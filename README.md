@@ -64,7 +64,7 @@ docker build -t grader .
 E.g.:
 
 ```
-coursera_autograder grade local grader ./shared/submission "{\"partId\": \"${partId}\"}" --dst-dir .
+coursera_autograder grade local grader ./shared/submission "{\"partId\": \"${partId}\"}" --dst-dir ./shared
 ```
 
 
