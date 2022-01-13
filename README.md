@@ -54,6 +54,7 @@ simply unit test files designed to work with [Python unittest](https://docs.pyth
 ## Build the grading container for local execution
 
 ```
+cd grader
 docker build -t grader .
 ```
 
@@ -63,7 +64,7 @@ docker build -t grader .
 E.g.:
 
 ```
-coursera_autograder grade local grader ./submission "{\"partId\": \"${partId}\"}" --dst-dir .
+coursera_autograder grade local grader ./shared/submission "{\"partId\": \"${partId}\"}" --dst-dir .
 ```
 
 

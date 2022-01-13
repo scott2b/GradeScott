@@ -13,6 +13,8 @@ from util import clean_pyfile, send_feedback
 SUBMISSION_DIR = Path(os.environ.get("SHARED_DIR", "/shared")) / "submission"
 SUBMISSION_DEST_DIR = Path(os.environ.get("GRADER_DIR", "/grader")) / "submission"
 
+SUBMISSION_DEST_DIR.mkdir(parents=True, exist_ok=True)
+
 
 class CustomTestResult(unittest.TextTestResult):
     """Creates a cleaner output intended to be more suitable for grading feedback."""
