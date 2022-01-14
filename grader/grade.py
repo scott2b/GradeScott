@@ -13,7 +13,13 @@ from util import clean_pyfile, send_feedback
 SUBMISSION_DIR = Path(os.environ.get("SHARED_DIR", "/shared")) / "submission"
 SUBMISSION_DEST_DIR = Path(os.environ.get("GRADER_DIR", "/grader")) / "submission"
 
-SUBMISSION_DEST_DIR.mkdir(parents=True, exist_ok=True)
+
+def clean_submissions_dir():
+    shutil.rmtree(SUBMISSION_DEST_DIR)
+    SUBMISSION_DEST_DIR.mkdir(parents=True, exist_ok=True)
+    with open(SUBMISSION_DEST_DIR / "__EPHEMERAL_WRITE_NO_FILES__", "w"):
+        pass
+clean_submissions_dir()
 
 
 class CustomTestResult(unittest.TextTestResult):
