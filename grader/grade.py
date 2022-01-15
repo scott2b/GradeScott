@@ -98,7 +98,7 @@ def main(partId):
         print(msg)
         return
 
-    # Standard tests
+    # Scored tests
     suite = unittest.defaultTestLoader.discover(Path(__file__).parent.resolve() / "tests", pattern=test_file_pattern)
     stream = io.StringIO()
     result = unittest.TextTestRunner(stream=stream, resultclass=CustomTestResult, failfast=False).run(suite)
@@ -112,7 +112,6 @@ def main(partId):
     else:
         score = 0.0  
     print(f'Score: {correct}/{total} = {score:.02}')
-    print(f'Points: {score*25} / 25')
     msg = stream.getvalue()
     stream.close()
     if score < 1.0: 
