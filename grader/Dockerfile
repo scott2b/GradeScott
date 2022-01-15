@@ -6,7 +6,7 @@ RUN \
   apt-get install -y python3-pip
 
 RUN mkdir /grader
-RUN mkdir /grader/solutions
+RUN mkdir /grader/submission
 
 COPY grade.py /grader/grade.py
 COPY util.py /grader/util.py
