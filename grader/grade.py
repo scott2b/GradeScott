@@ -15,11 +15,11 @@ SUBMISSION_DEST_DIR = Path(os.environ.get("GRADER_DIR", "/grader")) / "submissio
 
 
 def clean_submissions_dir():
+    print("Cleaning ephemeral submissions dir ..")
     shutil.rmtree(SUBMISSION_DEST_DIR)
     SUBMISSION_DEST_DIR.mkdir(parents=True, exist_ok=True)
     with open(SUBMISSION_DEST_DIR / "__EPHEMERAL_WRITE_NO_FILES__", "w"):
         pass
-clean_submissions_dir()
 
 
 class CustomTestResult(unittest.TextTestResult):
@@ -62,6 +62,7 @@ def destination_for_submission(path):
 def main(partId):
     #submission_location = os.environ.get("SUBMISSION_LOCATION", "/shared/submission/")
     #submission_file = None
+    clean_submissions_dir()
     submissions = get_submission_files()
     for path in submissions:
         dest = destination_for_submission(path)
